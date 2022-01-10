@@ -1,0 +1,51 @@
+<div class="shopping mt-3" style="padding: 0px 40% 0 80px">
+    <form [formGroup]="form" (ngSubmit)="handleSubmit()">
+        <div class="row">
+            <div class="col col-5">
+                <label for="name" class="font-weight-bold">Name</label>
+                <input formControlName="name" type="text" class="form-control" id="name">
+                <small class="form-text  text-danger">
+                    <div class="col alert alert-danger" role="alert"
+                        *ngIf="(name?.dirty || name?.touched) && name?.errors?.['required']">
+                        Name is required!
+                    </div>
+                </small>
+            </div>
+            <div class="col col-2">
+                <label for="amount">Amount</label>
+                <input formControlName="quantity" type="text" class="form-control" id="amount">
+                <small class="form-text  text-danger">
+                    <div class="col col-12 alert alert-danger" role="alert"
+                        *ngIf="(quantity?.dirty || quantity?.touched) && quantity?.errors?.['required']">
+                        Quantity is required!
+                    </div>
+                    <div class="col col-12 alert alert-danger" role="alert"
+                        *ngIf="(quantity?.dirty || quantity?.touched) && quantity?.errors?.['pattern']">
+                        Incorrect format quantity!
+                    </div>
+                </small>
+            </div>
+        </div>
+        <ng-container *ngIf="isShowGroupBtn">
+            <div class="button-group group-add mt-3">
+                <button [disabled]="!form.valid" class="btn btn-success">Add</button>
+                <button class="btn btn-primary">Clear</button>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="shoppingItem">
+            <div class="button-group mt-3">
+                <button (click)="handleUpdate()" type="button" [disabled]="!form.valid" class="btn btn-success">Update</button>
+                <button (click)="handleDelete()" type="button" class="btn btn-danger">Delete</button>
+                <button (click)="handleClear()" class="btn btn-primary">Clear</button>
+            </div>
+        </ng-container>
+        <hr>
+        <div *ngFor="let shopping of shoppingList" class="card "
+        (click)="showDetailItem(shopping.name)"
+        >
+            <div class="card-body p-2">
+                {{shopping.name}} ({{shopping.quantity}})
+            </div>
+        </div>
+    </form>
+</div>

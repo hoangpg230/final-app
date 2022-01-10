@@ -1,0 +1,18 @@
+.nav {
+    background-color: #f8f8f8;
+    border-bottom: 2px solid #e6e6e6;
+}
+.nav-link {
+    display: block;
+    color: #333;
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.nav-link.active {
+    border-radius: 0 !important;
+    color: #000;
+    background-color: #e6e6e6
+}

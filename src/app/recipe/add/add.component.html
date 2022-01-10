@@ -1,0 +1,73 @@
+
+<form  [formGroup]="form" (ngSubmit)="handleSubmit()">
+    <div>
+        <button [disabled]="!form.valid || !isExistImage" type="submit" class="btn btn-success">Save</button>
+        <button (click)="goBack()" class="btn btn-danger" type="button">Cancel</button>
+    </div>
+    <div class="form-group">
+        <label for="name" class="font-weight-bold">Name</label>
+        <input formControlName="name" type="text" name="name" class="form-control" id="name">
+        <small class="form-text  text-danger">
+            <div class="col alert alert-danger" role="alert"
+                *ngIf="(name?.dirty || name?.touched) && name?.errors?.['required']">
+                Name is required!
+            </div>
+        </small>
+    </div>
+    <div class="form-group">
+        <label for="image" class="font-weight-bold">Img URL</label>
+        <input formControlName="image" #imageInput (input)="onChangeImage(imageInput.value)" type="text" name="image" class="form-control" id="image">
+        <small  class="form-text  text-danger">
+            <div class="col alert alert-danger" role="alert"
+                *ngIf="(image?.dirty || image?.touched) && image?.errors?.['required']">
+                Image is required!
+            </div>
+        </small>
+    </div>
+    <ng-container *ngIf="isExistImage">
+        <img [src]="imageInput.value" width="200px" height="300px" alt="">
+    </ng-container>
+    <div class="form-group">
+        <label for="description" class="font-weight-bold">Description</label>
+        <textarea formControlName="description" type="text" rows="5" name="description" class="form-control"
+            id="description">
+
+        </textarea>
+        <small class="form-text  text-danger">
+            <div class="col alert alert-danger" role="alert"
+                *ngIf="(description?.dirty || description?.touched) && description?.errors?.['required']">
+                Description is required!
+            </div>
+        </small>
+    </div>
+    <ng-container formArrayName="ingredients">
+        <ng-container *ngFor="let ingredientForm of ingredients.controls; let i = index">
+            <div class="form-inline" [formGroupName]="i">
+                <div class="form-group mb-2" style="flex: 1">
+                    <input formControlName="ingredientName" style="flex: 1" type="text" class="form-control">
+                </div>
+                <div class="form-group mx-sm-4 mb-2">
+                    <input formControlName="ingredientQuantity" style="width: 60px;" type="number" class="form-control">
+                </div>
+                <button (click)="deleteIngredient(i)" type="button" class="btn btn-danger mb-2">&times;</button>
+            </div>
+            <small class="form-text  text-danger">
+                <div class="col alert alert-danger" role="alert"
+                    *ngIf="(ingredientForm.get('ingredientName')?.dirty || ingredientForm.get('ingredientName')?.touched) && ingredientForm.get('ingredientName')?.errors?.['required']">
+                    Ingredient name is required!
+                </div>
+                <div class="col alert alert-danger" role="alert"
+                    *ngIf="(ingredientForm.get('ingredientQuantity')?.dirty || ingredientForm.get('ingredientQuantity')?.touched) && ingredientForm.get('ingredientQuantity')?.errors?.['required']">
+                    Ingredient quantity is required!
+                </div>
+                <div class="col alert alert-danger" role="alert"
+                    *ngIf="(ingredientForm.get('ingredientQuantity')?.dirty || ingredientForm.get('ingredientQuantity')?.touched) && ingredientForm.get('ingredientQuantity')?.errors?.['pattern']">
+                    Incorrect ingredient quantity format!
+                </div>
+            </small>
+        </ng-container>
+      
+    </ng-container>
+    <hr>
+    <button type="button"  (click)="addIngredient()" class="btn btn-success">Add Ingredient</button>
+</form>

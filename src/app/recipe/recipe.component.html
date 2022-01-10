@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="col-5 recipe-left">
+        <button (click)="addRecipeLink('add')" class="btn btn-success mt-3">New Recipe</button>
+        <hr>
+        <div class="card-list mt-3">
+            <div *ngFor="let recipe of recipes" class="card" [ngClass]="{'active': recipeActive == recipe.id}"
+                (click)="showDetailRecipe(recipe.id)">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div class="card-desc">
+                        <div class="card-heading font-weight-bold">{{ recipe.name }}</div>
+                        <div class="card-heading text-sm-left">{{ recipe.description }}</div>
+                    </div>
+                    <img [src]="recipe.image" width="40px" height="50px" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-5 mt-3">
+        <ng-container *ngIf="isShowTitles && !recipe">
+            <h3>Please select a Recipe!</h3>
+        </ng-container>
+        <ng-container *ngIf="recipe && isShowTitles">
+            <div class="detail-cart">
+                <img [src]="recipe.image" width="200px" height="300px" alt="">
+                <h3>{{ recipe.name }}</h3>
+                <div class="btn-group">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                            aria-expanded="false">
+                            Manager Recipe
+                        </button>
+                        <div class="dropdown-menu">
+                            <li><button (click)="addToShopping(recipe.id)" class="dropdown-item">To Shopping List</button></li>
+                            <li><button (click)="addRecipeLink('edit')" class="dropdown-item">Edit Recipe</button></li>
+                            <li><button (click)="deleteRecipe(recipe.id)" class="dropdown-item">Delete Recipe</button></li>
+                        </div>
+                    </div>
+                </div>
+                <p class="m-1">{{recipe.description}}</p>
+                <div class="card" *ngFor="let ingredient of recipe.ingredients">
+                    <div class="card-body p-2">
+                        {{ingredient.ingredientName}} - {{ingredient.ingredientQuantity}}
+                    </div>
+                </div>
+
+            </div>
+        </ng-container>
+
+
+        <router-outlet></router-outlet>
+    </div>
+</div>
